@@ -1,0 +1,12 @@
+config/*
+!config/env.dist
+!config/config.json.dist
+!config/index.js
+.idea
+node_modules
+.DS_STORE
+npm-debug.log
+temp/*
+
+.tmp
+dist

@@ -1,0 +1,143 @@
+{
+  "swagger": "3.0",
+  "info": {
+    "version": "v1",
+    "title": "Matasera API docs"
+  },
+  "basePath": "/",
+  "tags": [],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+  },
+  "definitions": {
+
+    "Authorization": {
+      "type": "string",
+      "name": "Authorization",
+      "default": "Bearer ",
+      "required": true,
+      "description": "Put your accessToken here",
+      "in": "header"
+    },
+    "TokenPair": {
+      "required": [
+        "token",
+        "tokenExpireAt",
+        "refreshToken",
+        "refreshTokenExpireAt"
+      ],
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "tokenExpireAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "refreshTokenExpireAt": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "RefreshToken": {
+      "required": [
+        "refreshToken"
+      ],
+      "properties": {
+        "refreshToken": {
+          "type": "string"
+        }
+      }
+    },
+    "Empty": {
+      "required": [
+        "__v",
+        "data",
+        "pagination"
+      ],
+      "properties": {
+        "__v": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        },
+        "pagination": {
+          "type": "object"
+        }
+      }
+    },
+    "Error": {
+      "required": [
+        "__v",
+        "code",
+        "message",
+        "errors"
+      ],
+      "properties": {
+        "__v": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Offset": {
+      "type": "integer",
+      "name": "offset",
+      "required": false,
+      "in": "query"
+    },
+    "Limit": {
+      "type": "integer",
+      "name": "limit",
+      "required": false,
+      "in": "query"
+    },
+    "Filter": {
+      "type": "string",
+      "name": "filter",
+      "required": false,
+      "in": "query"
+    },
+    "Order": {
+      "type": "string",
+      "name": "order",
+      "description": "Options: ASC, DESC(default)",
+      "required": false,
+      "in": "query"
+    },
+    "Field": {
+      "type": "string",
+      "name": "field",
+      "required": false,
+      "description": "ordering field",
+      "in": "query"
+    }
+  }
+}
