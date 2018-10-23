@@ -1,7 +1,6 @@
-const { Rider } = require('../models');
-const { ValidationError, NotFoundEntityError } = require('../errors');
-const { UniqueConstraintError } = require('sequelize');
-const { ERROR_CODES, USER_STATES, RIDER_CHARACTERISTICS, PREFERENCES_SCOPES } = require('../constants');
+const { User } = require('../models');
+const { NotFoundEntityError } = require('../errors');
+const { ERROR_CODES } = require('../constants');
 const LocalizationDictionary = require('../locale');
 
 class UsersMiddlewares {
@@ -12,18 +11,16 @@ class UsersMiddlewares {
      * @param res
      * @param next
      */
-    static createRider(req, res, next) {
-        res.locals.needVerification = !req.body.isAdult || req.body.characteristics === RIDER_CHARACTERISTICS.ADVANCED_MEDICAL_NEEDS;
+    static createUser(req, res, next) {
+        const user = new User(req.body);
 
-        Rider
-            .create(Object.assign(req.body, { isVerified: !res.locals.needVerification }))
-            .then(user => res.locals.user = user)
+        user.save()
+            .then(data => {
+                console.log('noice')
+            })
             .then(() => next())
-            .catch(ValidationError.mapSequelizeValidationError({
-                email: LocalizationDictionary.getText('EMAIL_MUST_BE_UNIQUE', req.locale),
-                number: LocalizationDictionary.getText('NUMBER_MUST_BE_UNIQUE', req.locale)
-            }, UniqueConstraintError))
             .catch(next);
+
     }
 
     /**

@@ -1,11 +1,10 @@
 const moment = require('moment');
 
 const logger = require('./logger');
-const sequelize = require('./sequelize');
 
 const constants = require('../constants');
-const {ResponseHelper} = require('../helpers');
-const {ForbiddenError} = require('../errors');
+const { ResponseHelper } = require('../helpers');
+const { ForbiddenError } = require('../errors');
 
 const LocalizationDictionary = require('../locale');
 

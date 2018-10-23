@@ -1,0 +1,208 @@
+{
+  "tags": [
+    {
+      "name": "sessions",
+      "description": "all sessions operations"
+    }
+  ],
+  "paths": {
+    "/api/v1/sessions": {
+      "post": {
+        "tags": [
+          "sessions"
+        ],
+        "summary": "login",
+        "description": "Login",
+        "operationId": "signIn",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/Credentials"
+            },
+            "name": "body",
+            "required": true,
+            "description": "User credentials",
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful response",
+            "schema": {
+              "$ref": "#/definitions/SessionResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid json/ invalid dataset",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Something was wrong",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "sessions"
+        ],
+        "summary": "refresh session",
+        "description": "Refresh",
+        "operationId": "refresh",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/definitions/Authorization"
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/RefreshToken"
+            },
+            "name": "body",
+            "required": true,
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful response",
+            "schema": {
+              "$ref": "#/definitions/SessionResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid json/ invalid dataset",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Something was wrong",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "sessions"
+        ],
+        "summary": "logout",
+        "description": "Logout",
+        "operationId": "signOut",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/definitions/Authorization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful response",
+            "schema": {
+              "$ref": "#/definitions/Empty"
+            }
+          },
+          "400": {
+            "description": "Invalid json/ invalid dataset",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Something was wrong",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Credentials": {
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "SessionResponse": {
+      "required": [
+        "__v",
+        "data",
+        "pagination"
+      ],
+      "properties": {
+        "__v": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "$ref": "#/definitions/Session"
+        },
+        "pagination": {
+          "type": "object"
+        }
+      }
+    },
+    "Session": {
+      "properties": {
+        "profile": {
+          "type": "object",
+          "$ref": "#/definitions/User"
+        },
+        "credentials": {
+          "type": "object",
+          "$ref": "#/definitions/TokenPair"
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
-const { UsersMiddlewares, CommonMiddlewares, SessionsMiddlewares, } = require('../../middlewares');
+const { UsersMiddlewares, CommonMiddlewares, SessionsMiddlewares } = require('../../middlewares');
 const { STATUS_CODES } = require('../../constants');
 const Controller = require('../../utils/baseController');
-const { UsersValidationRules, CommonValidationRules } = require('../../rules');
+const { CommonValidationRules } = require('../../rules');
 const bodyValidator = require('../../utils/bodyValidator');
 
 
@@ -14,10 +14,9 @@ class UsersController extends Controller {
             bodyValidator([
                 CommonValidationRules.email,
                 CommonValidationRules.mainFields,
-                UsersValidationRules.additionalFields,
                 CommonValidationRules.password()
             ]),
-            UsersMiddlewares.createRider,
+            UsersMiddlewares.createUser,
             SessionsMiddlewares.createSession,
             SessionsMiddlewares.formatSession,
             this.sendResponse(STATUS_CODES.CREATED)
@@ -30,7 +29,7 @@ class UsersController extends Controller {
     get updatePassword() {
         return [
             bodyValidator([CommonValidationRules.password()]),
-            UsersMiddlewares.getRiderByNumber,
+            UsersMiddlewares.getUserByNumber,
             CommonMiddlewares.updatePassword,
             this.sendResponse()
         ];
@@ -42,7 +41,7 @@ class UsersController extends Controller {
     get getUser() {
         return [
             CommonMiddlewares.checkAccess,
-            UsersMiddlewares.findRiderById,
+            UsersMiddlewares.findUserById,
             CommonMiddlewares.formatUser,
             this.sendResponse()
         ];

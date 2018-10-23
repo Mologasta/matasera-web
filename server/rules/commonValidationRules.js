@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { VALIDATION_RULES, USER_ROLES, ORDERS, VALID_FIELDS } = require('../constants');
+const { VALIDATION_RULES, ORDERS, VALID_FIELDS } = require('../constants');
 
 const LocalizationDictionary = require('../locale');
 
@@ -46,20 +46,6 @@ class CommonValidationRules {
                     }
                 })
                 .required(),
-            number: Joi
-                .string()
-                .trim()
-                .regex(VALIDATION_RULES.PHONE_REGEX)
-                .options({
-                    language: {
-                        string: {
-                            regex: {
-                                base: LocalizationDictionary.getText('NUMBER_REGEX_MESSAGE', locale)
-                            }
-                        }
-                    }
-                })
-                .required(),
         };
     }
 
@@ -76,48 +62,6 @@ class CommonValidationRules {
     }
 
     /**
-     * Push notifications device validation rules
-     */
-    static get device() {
-        return {
-            deviceToken: Joi
-                .string()
-                .required()
-        };
-    }
-
-    /**
-     * Approximate time of arrival validation
-     */
-    static get approxTime() {
-        return {
-            approxTime: Joi
-                .number()
-                .integer()
-                .allow(0)
-                .positive()
-                .optional(),
-        };
-    }
-
-    /**
-     * Locations validation rules
-     * @return {{startLocation, destinationLocation}}
-     */
-    static locations() {
-        return {
-            startLocation: Joi
-                .string()
-                .trim()
-                .optional(),
-            destinationLocation: Joi
-                .string()
-                .trim()
-                .optional(),
-        };
-    }
-
-    /**
      * Order validation rules
      */
     static get order() {
@@ -126,28 +70,6 @@ class CommonValidationRules {
                 .string()
                 .valid(ORDERS.ASC, ORDERS.DESC)
                 .optional()
-        };
-    }
-
-    /**
-     * Verified validation rules
-     */
-    static get verified() {
-        return {
-            isVerified: Joi
-                .boolean()
-                .optional()
-        };
-    }
-
-    /**
-     * Blocked validation rules
-     */
-    static get blocked() {
-        return {
-            isBlocked: Joi
-                .boolean()
-                .required()
         };
     }
 
@@ -161,15 +83,6 @@ class CommonValidationRules {
                 .trim()
                 .valid(VALID_FIELDS.ADMIN_LISTS)
                 .optional()
-        };
-    }
-
-    static role() {
-        return {
-            role: Joi
-                .number()
-                .valid([USER_ROLES.RIDER, USER_ROLES.DRIVER])
-                .required(),
         };
     }
 

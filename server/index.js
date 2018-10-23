@@ -6,7 +6,6 @@ const cors       = require('cors');
 const errorHandler               = require('./utils/errorHandler');
 const error404Handler            = require('./utils/error404Handler');
 const responseFormatter          = require('./utils/responseFormatter');
-const sequelizeErrorsHandler     = require('./utils/sequelizeErrorHandler');
 const {publicApi, api} = require('./routes');
 
 const FRONTEND  = path.resolve('frontend');
@@ -26,8 +25,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use('/api', api);
 app.use('/', publicApi);
 
-app.use(stripeErrorHandler);
-app.use(sequelizeErrorsHandler);
 app.use(error404Handler);
 app.use(errorHandler);
 

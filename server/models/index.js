@@ -1,8 +1,8 @@
-"use strict";
+const mongose = require('mongoose');
+const client = require('../utils/mongo');
 const fs = require("fs");
 const path = require("path");
-const sequelize = require("./../utils/sequelize");
-const db = {};
+const models = {};
 
 fs
     .readdirSync(__dirname)
@@ -10,18 +10,10 @@ fs
         .statSync(path.join(__dirname, file))
         .isDirectory()
     )
-    .forEach(modelName => {
-        const pathToModel = path.join(__dirname, modelName);
+    .forEach(obj => {
+        const pathToModel = path.join(__dirname, obj);
         const model = require(pathToModel);
-        db[model.name] = model;
+        const schema = new mongose.Schema(model.schema);
+        models[model.name] = mongose.model(model.name, schema)
     });
-
-Object
-    .keys(db)
-    .forEach(modelName => {
-        if ("associate" in db[modelName]) {
-            db[modelName].associate(db);
-        }
-    });
-
-module.exports = db;
+module.exports = models;
