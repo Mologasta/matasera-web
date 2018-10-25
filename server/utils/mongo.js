@@ -7,7 +7,7 @@ class Mongo {
 
     constructor() {
         this.client = mongose;
-        this.open()
+        this.open();
     }
 
     open() {

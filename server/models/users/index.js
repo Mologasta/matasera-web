@@ -1,36 +1,40 @@
-const passwordSetters = require('../../utils/setters/password');
+const schema = require('./schema');
+const PasswordHelpers = require('../../utils/setters/password');
+
+schema.pre('save', function (next) {
+    PasswordHelpers.hashPassword(this, next);
+});
+schema.pre('update', function (next) {
+    PasswordHelpers.hashPassword(this, next)
+});
+
+schema.method({
+    baseFormat: function() {
+        return {
+            id: this.id,
+
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+
+            createdAt: this.createdAt.toISOString(),
+            updatedAt: this.updatedAt.toISOString(),
+        };
+    },
+    sessionFormat: function(credentials) {
+        return {
+            profile: this.baseFormat(),
+            credentials: {
+                token: credentials.token,
+                tokenExpireAt: credentials.tokenExpireAt.toISOString(),
+                refreshToken: credentials.refreshToken,
+                refreshTokenExpireAt: credentials.refreshTokenExpireAt.toISOString(),
+            }
+        }
+    }
+});
 
 module.exports = {
     name: 'User',
-    schema: {
-        firstName: {
-            type: String,
-            required: true,
-        },
-        lastName: {
-            type: String,
-            required: true
-        },
-        email: {
-            type: String,
-            required: true
-        },
-        password: {
-            type: String,
-            set: passwordSetters.hashPassword,
-            required: true
-        },
-        // salt: {
-        //     type: String,
-        //     required: true
-        // },
-        createdAt: {
-            type: Date,
-            default: Date.now
-        },
-        updatedAt: {
-            type: Date,
-            default: Date.now
-        }
-    }
+    schema: schema,
 };

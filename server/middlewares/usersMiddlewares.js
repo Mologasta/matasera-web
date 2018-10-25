@@ -14,13 +14,12 @@ class UsersMiddlewares {
     static createUser(req, res, next) {
         const user = new User(req.body);
 
-        user.save()
-            .then(data => {
-                console.log('noice')
-            })
+        user.save(user)
+            .then(data => res.locals.user = data)
             .then(() => next())
-            .catch(next);
-
+            .catch((err) => {
+                next(err)
+            });
     }
 
     /**

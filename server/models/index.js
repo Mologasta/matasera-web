@@ -13,7 +13,6 @@ fs
     .forEach(obj => {
         const pathToModel = path.join(__dirname, obj);
         const model = require(pathToModel);
-        const schema = new mongose.Schema(model.schema);
-        models[model.name] = mongose.model(model.name, schema)
+        models[model.name] = mongose.model(model.name, model.schema);
     });
 module.exports = models;

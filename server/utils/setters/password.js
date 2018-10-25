@@ -3,11 +3,13 @@ const Password = require('../../helpers/passwordHelper');
 
 /**
  * Hash password before create
- * @param value
+ * @param that,
+ * @param next,
  */
-function hashPassword(value) {
-        const salt = Password.generateSalt();
-        return  Password.hash(value + salt);
+function hashPassword(that, next) {
+    that.salt = Password.generateSalt();
+    that.password = Password.hash(that.password + that.salt);
+    next()
 }
 
 /**
