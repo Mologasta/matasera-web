@@ -7,7 +7,7 @@ router
     .route('/:version/sessions')
     .post(controllers.execute('sessions.signIn'))
     .put(controllers.execute('sessions.refresh'))
-    .delete(passportWrapper.riderAuthHandler, controllers.execute('sessions.signOut'));
+    .delete(passportWrapper.userAuthHandler, controllers.execute('sessions.signOut'));
 
 /****************************USERS SECTION*****************************/
 router
@@ -16,7 +16,7 @@ router
 
 router
     .route('/:version/users/:userId')
-    .get(passportWrapper.riderAuthHandler, controllers.execute('users.getUser'));
+    .get(passportWrapper.userAuthHandler, controllers.execute('users.getUser'));
 
 /****************************VERIFICATION SECTION***********************/
 router

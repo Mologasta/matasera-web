@@ -1,6 +1,6 @@
 const { UsersMiddlewares, CommonMiddlewares, SessionsMiddlewares, } = require('../../middlewares');
 const Controller = require('../../utils/baseController');
-const { CommonValidationRules, VerificationValidationRules, SessionValidationRules } = require('../../rules');
+const { CommonValidationRules, SessionValidationRules } = require('../../rules');
 const bodyValidator = require('../../utils/bodyValidator');
 
 
@@ -10,11 +10,9 @@ class SessionsController extends Controller {
      */
     get signIn() {
         return [
-            bodyValidator([VerificationValidationRules.number, CommonValidationRules.loginPassword]),
-            UsersMiddlewares.getUserByNumber,
+            bodyValidator([CommonValidationRules.email(), CommonValidationRules.loginPassword]),
+            UsersMiddlewares.getUserByEmail,
             CommonMiddlewares.checkPassword,
-            CommonMiddlewares.checkBlocked,
-            CommonMiddlewares.checkVerification,
             SessionsMiddlewares.createSession,
             SessionsMiddlewares.formatSession,
             this.sendResponse()

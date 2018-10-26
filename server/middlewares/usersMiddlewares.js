@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { Users } = require('../models');
 const { NotFoundEntityError } = require('../errors');
 const { ERROR_CODES } = require('../constants');
 const LocalizationDictionary = require('../locale');
@@ -12,7 +12,7 @@ class UsersMiddlewares {
      * @param next
      */
     static createUser(req, res, next) {
-        const user = new User(req.body);
+        const user = new Users(req.body);
 
         user.save(user)
             .then(data => res.locals.user = data)
@@ -29,17 +29,15 @@ class UsersMiddlewares {
      * @param next
      */
     static findUserById(req, res, next) {
-        const riderId = req.params.riderId || res.locals.userId || req.user.id;
-        const scopes = ['withLocation', 'withCards', 'withRide', 'withDevices', 'withDebt', 'withUpdateRequest'];
+        const userId = req.params.userId || res.locals.userId || req.user.id;
 
-        Rider
-            .scope(scopes)
-            .findById(riderId)
+        Users
+            .findById(userId)
             .then(user => {
                 if(!user) {
                     throw new NotFoundEntityError(
                         ERROR_CODES.ENTITY_NOT_FOUND,
-                        LocalizationDictionary.getText('RIDER_NOT_FOUND', req.locale)
+                        LocalizationDictionary.getText('USER_NOT_FOUND', req.locale)
                     );
                 }
 
@@ -49,23 +47,15 @@ class UsersMiddlewares {
             .catch(next);
     }
 
-    /**
-     * Get rider by number
-     * @param req
-     * @param res
-     * @param next
-     */
-    static getUserByNumber(req, res, next) {
-        const scopes = ['withLocation', 'withCards', 'withRide', 'withDevices', 'withDebt', 'withUpdateRequest'];
+    static getUserByEmail(req, res, next) {
 
-        Rider
-            .scope(scopes)
-            .find({ where: { number: req.body.number } })
+        Users
+            .findOne({ email: req.body.email })
             .then(user => {
                 if(!user) {
                     throw new NotFoundEntityError(
                         ERROR_CODES.ENTITY_NOT_FOUND,
-                        LocalizationDictionary.getText('INVALID_NUMBER', req.locale)
+                        LocalizationDictionary.getText('INVALID_EMAIL', req.locale)
                     );
                 }
 
@@ -75,11 +65,11 @@ class UsersMiddlewares {
             .catch(next);
     }
 
-    static formatUsers(req, res, next) {
-        res.locals.data = res.locals.riders.map(r => r.baseFormat());
-        res.locals.count = res.locals.ridersCount;
-        next();
-    }
+    // static formatUsers(req, res, next) {
+    //     res.locals.data = res.locals.riders.map(r => r.baseFormat());
+    //     res.locals.count = res.locals.ridersCount;
+    //     next();
+    // }
 }
 
 module.exports = UsersMiddlewares;

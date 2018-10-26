@@ -35,6 +35,6 @@ schema.method({
 });
 
 module.exports = {
-    name: 'User',
+    name: 'Users',
     schema: schema,
 };
