@@ -6,6 +6,8 @@ const cors       = require('cors');
 const errorHandler               = require('./utils/errorHandler');
 const error404Handler            = require('./utils/error404Handler');
 const responseFormatter          = require('./utils/responseFormatter');
+const writer                     = require('./utils/requstLogger').writer;
+
 const {publicApi, api} = require('./routes');
 
 const FRONTEND  = path.resolve('frontend');
@@ -16,6 +18,7 @@ app.use(cors());
 
 //set up static files directory
 app.use('/swagger', express.static(path.join(FRONTEND, 'swagger')));
+app.use(writer);
 app.use(responseFormatter);
 
 app.use(bodyParser.json({limit: '50mb'}));

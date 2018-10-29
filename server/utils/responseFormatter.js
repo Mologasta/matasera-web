@@ -38,13 +38,6 @@ module.exports = (req, res, next) => {
         //if static file just use next()
         if (!err && isFile) {
             next();
-        } else {
-            logger.log('info', 'request', {
-                headers: req.headers,
-                method: req.method,
-                url: req.url,
-                ip: req.ip
-            });
         }
     });
 

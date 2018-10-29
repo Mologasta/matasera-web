@@ -47,6 +47,36 @@ class UsersMiddlewares {
             .catch(next);
     }
 
+    /**
+     * Find users middleware
+     * @param req
+     * @param res
+     * @param next
+     */
+    static findUsers(req, res, next) {
+
+        Users
+            .find()
+            .then(users => res.locals.users = users)
+            .then(() => next())
+            .catch(next);
+    }
+
+    /**
+     * Find users middleware
+     * @param req
+     * @param res
+     * @param next
+     */
+    static countUsers(req, res, next) {
+
+        Users
+            .countDocuments()
+            .then(count => res.locals.usersCount = count)
+            .then(() => next())
+            .catch(next);
+    }
+
     static getUserByEmail(req, res, next) {
 
         Users
@@ -65,11 +95,11 @@ class UsersMiddlewares {
             .catch(next);
     }
 
-    // static formatUsers(req, res, next) {
-    //     res.locals.data = res.locals.riders.map(r => r.baseFormat());
-    //     res.locals.count = res.locals.ridersCount;
-    //     next();
-    // }
+    static formatUsers(req, res, next) {
+        res.locals.data = res.locals.users.map(r => r.baseFormat());
+        res.locals.count = res.locals.usersCount;
+        next();
+    }
 }
 
 module.exports = UsersMiddlewares;

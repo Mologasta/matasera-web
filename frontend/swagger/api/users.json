@@ -52,6 +52,51 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Users list",
+        "description": "Get users list",
+        "operationId": "getUsers",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/definitions/Authorization"
+          },
+          {
+            "$ref": "#/definitions/Offset"
+          },
+          {
+            "$ref": "#/definitions/Limit"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful response.",
+            "schema": {
+              "$ref": "#/definitions/SessionResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid json/ invalid dataset",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
       }
     }
   },

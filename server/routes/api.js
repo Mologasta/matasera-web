@@ -12,6 +12,7 @@ router
 /****************************USERS SECTION*****************************/
 router
     .route('/:version/users')
+    .get(passportWrapper.userAuthHandler, controllers.execute('users.getUsers'))
     .post(controllers.execute('users.signUp'));
 
 router

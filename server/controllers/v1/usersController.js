@@ -24,25 +24,25 @@ class UsersController extends Controller {
     }
 
     /**
-     * Update password
+     * Get user
      */
-    get updatePassword() {
+    get getUser() {
         return [
-            bodyValidator([CommonValidationRules.password()]),
-            UsersMiddlewares.getUserByNumber,
-            CommonMiddlewares.updatePassword,
+            UsersMiddlewares.findUserById,
+            CommonMiddlewares.formatUser,
             this.sendResponse()
         ];
     }
 
     /**
-     * Get rider
+     * Get users list
      */
-    get getUser() {
+    get getUsers() {
         return [
-            CommonMiddlewares.checkAccess,
-            UsersMiddlewares.findUserById,
-            CommonMiddlewares.formatUser,
+            this.pagination,
+            UsersMiddlewares.findUsers,
+            UsersMiddlewares.countUsers,
+            UsersMiddlewares.formatUsers,
             this.sendResponse()
         ];
     }
