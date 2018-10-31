@@ -1,4 +1,4 @@
-const { Users } = require('../models');
+const { User } = require('../models');
 const { NotFoundEntityError } = require('../errors');
 const { ERROR_CODES } = require('../constants');
 const LocalizationDictionary = require('../locale');
@@ -12,7 +12,7 @@ class UsersMiddlewares {
      * @param next
      */
     static createUser(req, res, next) {
-        const user = new Users(req.body);
+        const user = new User(req.body);
 
         user.save(user)
             .then(data => res.locals.user = data)
@@ -31,7 +31,7 @@ class UsersMiddlewares {
     static findUserById(req, res, next) {
         const userId = req.params.userId || res.locals.userId || req.user.id;
 
-        Users
+        User
             .findById(userId)
             .then(user => {
                 if(!user) {
@@ -55,8 +55,10 @@ class UsersMiddlewares {
      */
     static findUsers(req, res, next) {
 
-        Users
-            .find()
+        User
+            .find({username: { $regex: `.*${req.query.filter || '.*'}.*` } })
+            .limit(req.pagination.limit)
+            .skip(req.pagination.offset)
             .then(users => res.locals.users = users)
             .then(() => next())
             .catch(next);
@@ -70,7 +72,7 @@ class UsersMiddlewares {
      */
     static countUsers(req, res, next) {
 
-        Users
+        User
             .countDocuments()
             .then(count => res.locals.usersCount = count)
             .then(() => next())
@@ -79,7 +81,7 @@ class UsersMiddlewares {
 
     static getUserByEmail(req, res, next) {
 
-        Users
+        User
             .findOne({ email: req.body.email })
             .then(user => {
                 if(!user) {

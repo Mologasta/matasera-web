@@ -1,0 +1,96 @@
+{
+  "tags": [
+    {
+      "name": "images",
+      "description": "all images operations"
+    }
+  ],
+  "paths": {
+    "/api/v1/images": {
+      "post": {
+        "tags": [
+          "images"
+        ],
+        "summary": "Upload new image",
+        "description": "Upload new image",
+        "operationId": "upload",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/definitions/Authorization"
+          },
+          {
+            "$ref": "#/definitions/UserImage"
+          }
+
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful response.",
+            "schema": {
+              "$ref": "#/definitions/ImageResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid json/ invalid dataset",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ImageResponse": {
+      "required": [
+        "__v",
+        "data",
+        "pagination"
+      ],
+      "properties": {
+        "__v": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "$ref": "#/definitions/Image"
+        },
+        "pagination": {
+          "type": "object"
+        }
+      }
+    },
+    "Image": {
+      "required": [
+        "id",
+        "path"
+      ],
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "path": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

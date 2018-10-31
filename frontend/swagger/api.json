@@ -125,6 +125,13 @@
       "required": false,
       "in": "query"
     },
+    "UserImage": {
+      "name": "image",
+      "type": "file",
+      "description": "image",
+      "in": "formData",
+      "required": true
+    },
     "Order": {
       "type": "string",
       "name": "order",

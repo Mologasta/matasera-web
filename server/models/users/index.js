@@ -16,6 +16,7 @@ schema.method({
             firstName: this.firstName,
             lastName: this.lastName,
             email: this.email,
+            username: this.username,
 
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
@@ -35,6 +36,6 @@ schema.method({
 });
 
 module.exports = {
-    name: 'Users',
+    name: 'User',
     schema: schema,
 };

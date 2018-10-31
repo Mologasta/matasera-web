@@ -19,17 +19,9 @@ router
     .route('/:version/users/:userId')
     .get(passportWrapper.userAuthHandler, controllers.execute('users.getUser'));
 
-/****************************VERIFICATION SECTION***********************/
+/****************************UPLOAD SECTION***********************/
 router
-    .route('/:version/verification')
-    .post(controllers.execute('verification.sendVerificationCode'));
-
-router
-    .route('/:version/verification/code')
-    .post(controllers.execute('verification.validateCode'));
-
-router
-    .route('/:version/verification/reset')
-    .post(controllers.execute('verification.resetPasswordCode'));
+    .route('/:version/images')
+    .post(passportWrapper.userAuthHandler, controllers.execute('images.upload'));
 
 module.exports = router;

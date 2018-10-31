@@ -15,21 +15,21 @@ class UploadMiddlewares {
      * @param next
      */
     static validatePhoto(req, res, next) {
-        if (!req.files || !req.files.photo) {
+        if (!req.files || !req.files.image) {
             return next(new BadRequestError(
                 ERROR_CODES.VALIDATION_ERROR,
                 LocalizationDictionary.getText('PHOTO_REQUIRED', req.locale)
             ));
         }
 
-        if (req.files.photo.size > VALIDATION_RULES.MAX_PHOTO_SIZE) {
+        if (req.files.image.size > VALIDATION_RULES.MAX_PHOTO_SIZE) {
             return next(new BadRequestError(
                 ERROR_CODES.VALIDATION_ERROR,
                 LocalizationDictionary.getText('FILE_TOO_LARGE', req.locale)
             ));
         }
 
-        fs.readFile(req.files.photo.path, (err, file) => {
+        fs.readFile(req.files.image.path, (err, file) => {
             if (err) {
                 return next(err);
             }
@@ -55,25 +55,25 @@ class UploadMiddlewares {
      * @returns {*}
      */
     static uploadToS3(req, res, next) {
-        const filename = `${uuid.v4()}.${req.files.photo.name.split('.').pop()}`;
+        const filename = `${uuid.v4()}.${req.files.image.name.split('.').pop()}`;
         S3Service.uploadFile(
-            req.files.photo.path,
-            `drivers/photo/${res.locals.user.id}/${filename}`,
+            req.files.image.path,
+            `images/${filename}`,
             res.locals.fileType
         )
             .then((photo) => {
                 try {
-                    fs.unlinkSync(req.files.photo.path);
+                    fs.unlinkSync(req.files.image.path);
                 } catch (e) {
                     logger.error(e);
                 }
-                
-                res.locals.photo = photo
+
+                res.locals.image = photo
             })
             .then(() => next())
             .catch((err) => {
                 try {
-                    fs.unlinkSync(req.files.photo.path);
+                    fs.unlinkSync(req.files.image.path);
                 } catch (e) {
                     logger.error(e);
                 }

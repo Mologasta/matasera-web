@@ -12,8 +12,8 @@ class UsersController extends Controller {
     get signUp() {
         return [
             bodyValidator([
-                CommonValidationRules.email,
                 CommonValidationRules.mainFields,
+                CommonValidationRules.email,
                 CommonValidationRules.password()
             ]),
             UsersMiddlewares.createUser,
@@ -39,6 +39,10 @@ class UsersController extends Controller {
      */
     get getUsers() {
         return [
+            bodyValidator([
+                CommonValidationRules.pagination,
+                CommonValidationRules.search
+            ]),
             this.pagination,
             UsersMiddlewares.findUsers,
             UsersMiddlewares.countUsers,

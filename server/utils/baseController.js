@@ -58,7 +58,7 @@ class BaseController {
             limit = constants.PAGINATION.MIN_LIMIT;
         }
 
-        if (offset && offset < constants.PAGINATION.MIN_OFFSET) {
+        if (isNaN(offset) || offset && offset < constants.PAGINATION.MIN_OFFSET) {
             offset = constants.PAGINATION.MIN_OFFSET;
         }
 

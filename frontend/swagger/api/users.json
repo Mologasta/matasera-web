@@ -75,6 +75,9 @@
           },
           {
             "$ref": "#/definitions/Limit"
+          },
+          {
+            "$ref": "#/definitions/Filter"
           }
         ],
         "responses": {
@@ -115,6 +118,9 @@
         "lastName": {
           "type": "string"
         },
+        "username": {
+          "type": "string"
+        },
         "email": {
           "type": "string"
         },
@@ -147,7 +153,8 @@
         "id",
         "firstName",
         "lastName",
-        "email"
+        "email",
+        "username"
       ],
       "properties": {
         "id": {
@@ -157,6 +164,9 @@
           "type": "string"
         },
         "lastName": {
+          "type": "string"
+        },
+        "username": {
           "type": "string"
         },
         "email": {
