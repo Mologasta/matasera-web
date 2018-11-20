@@ -6,6 +6,14 @@ module.exports = new Schema({
         type: String,
         required: true,
     },
+    lat: {
+        type: String,
+        required: false,
+    },
+    lng: {
+        type: String,
+        required: false,
+    },
     createdAt: {
         type: Date,
         default: Date.now

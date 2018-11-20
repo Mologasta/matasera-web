@@ -10,11 +10,6 @@ module.exports = new Schema({
         type: String,
         required: true
     },
-    username: {
-        type: String,
-        unique : true,
-        required: true
-    },
     email: {
         type: String,
         unique : true,

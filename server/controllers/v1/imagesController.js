@@ -11,6 +11,7 @@ class ImagesController extends Controller {
         return [
             multiparty(),
             UploadMiddlewares.validatePhoto,
+            ImagesMiddlewares.getImageGPS,
             UploadMiddlewares.uploadToS3,
             ImagesMiddlewares.saveData,
             this.sendResponse()

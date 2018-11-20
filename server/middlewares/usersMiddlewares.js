@@ -56,7 +56,11 @@ class UsersMiddlewares {
     static findUsers(req, res, next) {
 
         User
-            .find({username: { $regex: `.*${req.query.filter || '.*'}.*` } })
+            .find({ $or:[
+                {firstName: { $regex: `.*${req.query.filter || '.*'}.*` } },
+                {lastName: { $regex: `.*${req.query.filter || '.*'}.*` } }
+                ]
+            })
             .limit(req.pagination.limit)
             .skip(req.pagination.offset)
             .then(users => res.locals.users = users)

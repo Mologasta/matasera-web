@@ -45,14 +45,7 @@ class CommonValidationRules {
                         }
                     }
                 })
-                .required(),
-            username: Joi
-                .string()
-                .trim()
-                .min(VALIDATION_RULES.MIN_USERNAME_LENGTH)
-                .max(VALIDATION_RULES.MAX_USERNAME_LENGTH)
-                .regex(VALIDATION_RULES.USERNAME_REGEX)
-                .required(),
+                .required()
         };
     }
 
