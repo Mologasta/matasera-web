@@ -7,6 +7,9 @@ module.exports = {
     MAX_EMAIL_LENGTH: 129,
     MIN_USERNAME_LENGTH: 4,
     MAX_USERNAME_LENGTH: 16,
+    MAX_COORD: 180,
+    MIN_COORD: -180,
+    MAX_RADIUS: 3000,
 
     USERNAME_REGEX: /^[a-z1-9]*$/,
     USER_NAME_REGEX: /^[A-Z][A-Za-z\s-]*$/,

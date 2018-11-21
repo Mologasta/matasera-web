@@ -49,6 +49,54 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "images"
+        ],
+        "summary": "Get images list",
+        "description": "Get images",
+        "operationId": "getImages",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/definitions/Authorization"
+          },
+          {
+            "$ref": "#/definitions/Latitude"
+          },
+          {
+            "$ref": "#/definitions/Longitude"
+          },
+          {
+            "$ref": "#/definitions/Radius"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful response.",
+            "schema": {
+              "$ref": "#/definitions/ImagesResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid json/ invalid dataset",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
       }
     }
   },
@@ -66,6 +114,28 @@
         "data": {
           "type": "object",
           "$ref": "#/definitions/Image"
+        },
+        "pagination": {
+          "type": "object"
+        }
+      }
+    },
+    "ImagesResponse": {
+      "required": [
+        "__v",
+        "data",
+        "pagination"
+      ],
+      "properties": {
+        "__v": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Image"
+          }
         },
         "pagination": {
           "type": "object"

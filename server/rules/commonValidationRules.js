@@ -128,58 +128,6 @@ class CommonValidationRules {
     }
 
     /**
-     * Drivers location validation rules
-     * @return {{lat, long}}
-     */
-    static location() {
-        return {
-            latitude: Joi
-                .number()
-                .required(),
-            longitude: Joi
-                .number()
-                .required(),
-        };
-    }
-
-    /**
-     * Timeout validation rules
-     * @return {{timeout}}
-     */
-    static timeOut() {
-        return {
-            timeOut: Joi
-                .number()
-                .integer()
-                .optional(),
-        };
-    }
-
-    /**
-     * Drivers direction validation rules
-     * @return {{direction}}
-     */
-    static direction() {
-        return {
-            direction: Joi
-                .number()
-                .optional(),
-        };
-    }
-
-    /**
-     * Rider stripe token
-     * @returns {{ token }}
-     */
-    static token() {
-        return {
-            token: Joi
-                .string()
-                .required()
-        };
-    }
-
-    /**
      * Login password validation
      * @param locale
      * @return {{password}}

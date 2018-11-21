@@ -19,9 +19,10 @@ router
     .route('/:version/users/:userId')
     .get(passportWrapper.userAuthHandler, controllers.execute('users.getUser'));
 
-/****************************UPLOAD SECTION***********************/
+/****************************IMAGES SECTION***********************/
 router
     .route('/:version/images')
+    .get(passportWrapper.userAuthHandler, controllers.execute('images.getImages'))
     .post(passportWrapper.userAuthHandler, controllers.execute('images.upload'));
 
 module.exports = router;

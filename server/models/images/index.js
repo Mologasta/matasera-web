@@ -7,6 +7,7 @@ schema.method({
             id: this.id,
 
             path: this.path,
+            location: this.location,
 
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),

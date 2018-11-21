@@ -145,6 +145,24 @@
       "required": false,
       "description": "ordering field",
       "in": "query"
+    },
+    "Latitude": {
+      "type": "number",
+      "name": "lat",
+      "required": false,
+      "in": "query"
+    },
+    "Longitude": {
+      "type": "number",
+      "name": "lng",
+      "required": false,
+      "in": "query"
+    },
+    "Radius": {
+      "type": "integer",
+      "name": "radius",
+      "required": false,
+      "in": "query"
     }
   }
 }
