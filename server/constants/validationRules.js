@@ -10,6 +10,7 @@ module.exports = {
     MAX_COORD: 180,
     MIN_COORD: -180,
     MAX_RADIUS: 3000,
+    MAX_COMMENT_LENGTH: 300,
 
     USERNAME_REGEX: /^[a-z1-9]*$/,
     USER_NAME_REGEX: /^[A-Z][A-Za-z\s-]*$/,

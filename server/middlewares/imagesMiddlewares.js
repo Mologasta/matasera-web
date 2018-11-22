@@ -1,8 +1,9 @@
 const { Image } = require('../models');
 const ExifImage = require('exif').ExifImage;
 const { ERROR_CODES } = require('../constants');
-const { UnprocessableEntityError } = require('../errors');
+const { UnprocessableEntityError, NotFoundEntityError } = require('../errors');
 const GpsHelper = require('../helpers/gpsHelper');
+const LocalizationDictionary = require('../locale');
 
 class ImagesMiddlewares {
 
@@ -34,10 +35,35 @@ class ImagesMiddlewares {
         });
 
         instance
-            .save(res.locals.photo)
+            .save()
             .then(image => res.locals.image = image)
             .then(() => next())
             .catch(next)
+    }
+
+    /**
+     * Find image by id middleware
+     * @param req
+     * @param res
+     * @param next
+     */
+    static findImageById(req, res, next) {
+        const imageId = req.params.imageId;
+
+        Image
+            .find({ _id: imageId})
+            .then(image => {
+                if(!image) {
+                    throw new NotFoundEntityError(
+                        ERROR_CODES.ENTITY_NOT_FOUND,
+                        LocalizationDictionary.getText('IMAGE_NOT_FOUND', req.locale)
+                    );
+                }
+
+                res.locals.image = image[0];
+            })
+            .then(() => next())
+            .catch(next);
     }
 
     /**

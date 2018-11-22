@@ -35,6 +35,20 @@ class ImageValidationRules {
                 .required(),
         };
     }
+
+    /**
+     * Comment text validation
+     * @return {{text}}
+     */
+    static commentText() {
+        return {
+            text: Joi
+                .string()
+                .trim()
+                .max(VALIDATION_RULES.MAX_COMMENT_LENGTH)
+                .required(),
+        };
+    }
 }
 
 module.exports = ImageValidationRules;

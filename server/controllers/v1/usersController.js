@@ -1,4 +1,4 @@
-const { UsersMiddlewares, CommonMiddlewares, SessionsMiddlewares } = require('../../middlewares');
+const { UsersMiddlewares, SessionsMiddlewares } = require('../../middlewares');
 const { STATUS_CODES } = require('../../constants');
 const Controller = require('../../utils/baseController');
 const { CommonValidationRules } = require('../../rules');
@@ -20,34 +20,6 @@ class UsersController extends Controller {
             SessionsMiddlewares.createSession,
             SessionsMiddlewares.formatSession,
             this.sendResponse(STATUS_CODES.CREATED)
-        ];
-    }
-
-    /**
-     * Get user
-     */
-    get getUser() {
-        return [
-            UsersMiddlewares.findUserById,
-            CommonMiddlewares.formatUser,
-            this.sendResponse()
-        ];
-    }
-
-    /**
-     * Get users list
-     */
-    get getUsers() {
-        return [
-            bodyValidator([
-                CommonValidationRules.pagination,
-                CommonValidationRules.search
-            ]),
-            this.pagination,
-            UsersMiddlewares.findUsers,
-            UsersMiddlewares.countUsers,
-            UsersMiddlewares.formatUsers,
-            this.sendResponse()
         ];
     }
 }

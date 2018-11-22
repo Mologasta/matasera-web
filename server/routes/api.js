@@ -25,4 +25,10 @@ router
     .get(passportWrapper.userAuthHandler, controllers.execute('images.getImages'))
     .post(passportWrapper.userAuthHandler, controllers.execute('images.upload'));
 
+router
+    .route('/:version/images/:imageId/comments')
+    .get(passportWrapper.userAuthHandler, controllers.execute('images.getComments'))
+    .post(passportWrapper.userAuthHandler, controllers.execute('images.addComment'));
+
+
 module.exports = router;
