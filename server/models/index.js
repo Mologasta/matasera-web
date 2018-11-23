@@ -1,4 +1,4 @@
-const mongose = require('mongoose');
+const mongoose = require('mongoose');
 const client = require('../utils/mongo');
 const fs = require("fs");
 const path = require("path");
@@ -13,6 +13,7 @@ fs
     .forEach(obj => {
         const pathToModel = path.join(__dirname, obj);
         const model = require(pathToModel);
-        models[model.name] = mongose.model(model.name, model.schema);
+        models[model.name] = mongoose.model(model.name, model.schema);
     });
+
 module.exports = models;

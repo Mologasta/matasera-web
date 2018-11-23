@@ -8,7 +8,7 @@ const error404Handler            = require('./utils/error404Handler');
 const responseFormatter          = require('./utils/responseFormatter');
 const writer                     = require('./utils/requstLogger').writer;
 
-const {publicApi, api} = require('./routes');
+const {publicApi, api, snsApi } = require('./routes');
 
 const FRONTEND  = path.resolve('frontend');
 
@@ -21,11 +21,16 @@ app.use('/swagger', express.static(path.join(FRONTEND, 'swagger')));
 app.use(writer);
 app.use(responseFormatter);
 
+app.use((req, res, next) => {
+    req.headers['content-type'] = 'application/json';
+    next();
+});
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.raw({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/api', api);
+app.use('/sns', snsApi);
 app.use('/', publicApi);
 
 app.use(error404Handler);

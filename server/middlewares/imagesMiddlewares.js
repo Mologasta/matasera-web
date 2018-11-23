@@ -21,12 +21,8 @@ class ImagesMiddlewares {
         }
 
         const location = {
-            type: 'Point',
-            coordinates: [
-                gpsData && parseFloat(gpsData.lng) || parseFloat(req.body.lng),
-                gpsData && parseFloat(gpsData.lat) || parseFloat(req.body.lat),
-
-            ],
+            lat: gpsData && parseFloat(gpsData.lat) || parseFloat(req.body.lat),
+            lng: gpsData && parseFloat(gpsData.lng) || parseFloat(req.body.lng),
         };
 
         const instance = new Image({
@@ -73,14 +69,10 @@ class ImagesMiddlewares {
      * @param next
      */
     static getImages(req, res, next) {
+        const options = { near: [ req.query.lat, req.query.lng], maxDistance: req.query.radius };
 
         Image
-            .find({
-                location: {
-                    $nearSphere: [parseFloat(req.query.lng), parseFloat(req.query.lat)],
-                    $maxDistance: parseFloat(req.query.radius)
-                }
-            })
+            .geoSearch({}, options)
             .then(results => res.locals.images = results)
             .then(() => next())
             .catch(next);

@@ -11,13 +11,13 @@ class ImageValidationRules {
         return {
             lat: Joi
                 .number()
-                .max(VALIDATION_RULES.MAX_COORD)
-                .min(VALIDATION_RULES.MIN_COORD)
+                .max(VALIDATION_RULES.MAX_LAT_COORD)
+                .min(VALIDATION_RULES.MIN_LAT_COORD)
                 .required(),
             lng: Joi
                 .number()
-                .max(VALIDATION_RULES.MAX_COORD)
-                .min(VALIDATION_RULES.MIN_COORD)
+                .max(VALIDATION_RULES.MAX_LNG_COORD)
+                .min(VALIDATION_RULES.MIN_LNG_COORD)
                 .required(),
         };
     }
@@ -30,6 +30,7 @@ class ImageValidationRules {
         return {
             radius: Joi
                 .number()
+                .min(VALIDATION_RULES.MIN_RADIUS)
                 .max(VALIDATION_RULES.MAX_RADIUS)
                 .integer()
                 .required(),

@@ -7,8 +7,14 @@ module.exports = new Schema({
         required: true,
     },
     location: {
-        type: { type: String },
-        coordinates: [Number],
+        lat: {
+            type: Number,
+            required: true,
+        },
+        lng: {
+            type: Number,
+            required: true,
+        }
     },
     createdAt: {
         type: Date,

@@ -1,8 +1,7 @@
 const schema = require('./schema');
 
-
 schema.method({
-    baseFormat: function() {
+    baseFormat: function () {
         return {
             id: this.id,
 
