@@ -32,7 +32,6 @@ class ImageValidationRules {
                 .number()
                 .min(VALIDATION_RULES.MIN_RADIUS)
                 .max(VALIDATION_RULES.MAX_RADIUS)
-                .integer()
                 .required(),
         };
     }

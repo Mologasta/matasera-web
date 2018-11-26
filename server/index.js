@@ -6,6 +6,7 @@ const cors       = require('cors');
 const errorHandler               = require('./utils/errorHandler');
 const error404Handler            = require('./utils/error404Handler');
 const responseFormatter          = require('./utils/responseFormatter');
+const snsCheck                   = require('./utils/snsHeadersCheck');
 const writer                     = require('./utils/requstLogger').writer;
 
 const {publicApi, api, snsApi } = require('./routes');
@@ -21,10 +22,7 @@ app.use('/swagger', express.static(path.join(FRONTEND, 'swagger')));
 app.use(writer);
 app.use(responseFormatter);
 
-app.use((req, res, next) => {
-    req.headers['content-type'] = 'application/json';
-    next();
-});
+app.use(snsCheck);
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.raw({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: false}));

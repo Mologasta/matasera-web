@@ -11,8 +11,8 @@ module.exports = {
     MIN_LNG_COORD: -180,
     MAX_LAT_COORD: 90,
     MIN_LAT_COORD: -90,
-    MIN_RADIUS: 1,
-    MAX_RADIUS: 500,
+    MIN_RADIUS: 0,
+    MAX_RADIUS: 50,
     MAX_COMMENT_LENGTH: 300,
 
     USERNAME_REGEX: /^[a-z1-9]*$/,

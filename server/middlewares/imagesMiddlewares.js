@@ -1,7 +1,7 @@
 const { Image } = require('../models');
 const ExifImage = require('exif').ExifImage;
 const { ERROR_CODES } = require('../constants');
-const { UnprocessableEntityError, NotFoundEntityError } = require('../errors');
+const { NotFoundEntityError, BadRequestError } = require('../errors');
 const GpsHelper = require('../helpers/gpsHelper');
 const LocalizationDictionary = require('../locale');
 
@@ -16,8 +16,13 @@ class ImagesMiddlewares {
     static saveData(req, res, next) {
         let gpsData;
 
-        if(res.locals.gpsData) {
+        if (res.locals.gpsData) {
             gpsData = GpsHelper.formatData(res.locals.gpsData);
+        }
+
+        if (!res.locals.gpsData && !req.body.lat && !req.body.lng) {
+            throw new BadRequestError(ERROR_CODES.UNPROCESSABLE,
+            LocalizationDictionary.getText('NO_GPS_DATA'))
         }
 
         const location = {
@@ -47,9 +52,9 @@ class ImagesMiddlewares {
         const imageId = req.params.imageId;
 
         Image
-            .find({ _id: imageId})
+            .find({_id: imageId})
             .then(image => {
-                if(!image) {
+                if (!image) {
                     throw new NotFoundEntityError(
                         ERROR_CODES.ENTITY_NOT_FOUND,
                         LocalizationDictionary.getText('IMAGE_NOT_FOUND', req.locale)
@@ -69,7 +74,7 @@ class ImagesMiddlewares {
      * @param next
      */
     static getImages(req, res, next) {
-        const options = { near: [ req.query.lat, req.query.lng], maxDistance: req.query.radius };
+        const options = {near: [req.query.lat, req.query.lng], maxDistance: req.query.radius};
 
         Image
             .geoSearch({}, options)
@@ -107,17 +112,17 @@ class ImagesMiddlewares {
      * @param next
      */
     static getImageGPS(req, res, next) {
-        if(!req.body.lat || !req.body.lng) {
+        if (!req.body.lat || !req.body.lng) {
             try {
-                new ExifImage({ image : req.files.image.path }, function (error, exifData) {
+                new ExifImage({image: req.files.image.path}, function (error, exifData) {
                     if (error) {
-                        throw new UnprocessableEntityError(ERROR_CODES.UNPROCESSABLE, error);
+                        throw new BadRequestError(ERROR_CODES.INTERNAL_ERROR, LocalizationDictionary.getText('FAILED_TO_PARSE'));
                     }
 
                     res.locals.gpsData = exifData.gps
                 });
             } catch (error) {
-                throw new UnprocessableEntityError(ERROR_CODES.UNPROCESSABLE, error.message);
+                throw new BadRequestError(ERROR_CODES.INTERNAL_ERROR, error.message);
             }
         }
 

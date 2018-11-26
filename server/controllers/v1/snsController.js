@@ -1,5 +1,5 @@
 const Controller = require('../../utils/baseController');
-const { SnsMiddlewares } = require('../../middlewares');
+const { SnsMiddlewares, ImagesMiddlewares } = require('../../middlewares');
 
 
 class SNSController extends Controller {
@@ -8,7 +8,8 @@ class SNSController extends Controller {
      */
     get confirm() {
         return [
-            SnsMiddlewares.getHeader,
+            SnsMiddlewares.getSnsNotification,
+            ImagesMiddlewares.saveData,
             this.sendResponse()
         ];
     }
