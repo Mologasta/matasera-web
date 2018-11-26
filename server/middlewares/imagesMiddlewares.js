@@ -16,10 +16,12 @@ class ImagesMiddlewares {
     static saveData(req, res, next) {
         let gpsData;
 
+        if (req.headers['x-amz-sns-message-type'] === 'SubscriptionConfirmation') {
+            return next()
+        }
         if (res.locals.gpsData) {
             gpsData = GpsHelper.formatData(res.locals.gpsData);
         }
-
         if (!res.locals.gpsData && !req.body.lat && !req.body.lng) {
             throw new BadRequestError(ERROR_CODES.UNPROCESSABLE,
             LocalizationDictionary.getText('NO_GPS_DATA'))

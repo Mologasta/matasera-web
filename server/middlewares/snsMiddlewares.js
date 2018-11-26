@@ -36,23 +36,25 @@ class SnsMiddlewares {
                 .on('error', function(err) {
                     return next(err);
                 })
-                .pipe(fs.createWriteStream(`tmp/${fileName}`));
+                .pipe(
+                    fs.createWriteStream(`tmp/${fileName}`)
+                    .on('close', () => {
+                        try {
+                            new ExifImage({image: `tmp/${fileName}`}, function (error, exifData) {
+                                if (error) {
+                                    fs.unlinkSync(`tmp/${fileName}`);
+                                    throw new BadRequestError(ERROR_CODES.INTERNAL_ERROR, error);
+                                }
 
-            try {
-                new ExifImage({image: `tmp/${fileName}`}, function (error, exifData) {
-                    if (error) {
-                        fs.unlinkSync(`tmp/${fileName}`);
-                        throw new BadRequestError(ERROR_CODES.INTERNAL_ERROR, error);
-                    }
-
-                    fs.unlinkSync(`tmp/${fileName}`);
-                    res.locals.gpsData = exifData.gps
-                });
-            } catch (error) {
-                fs.unlinkSync(`tmp/${fileName}`);
-                throw new BadRequestError(ERROR_CODES.INTERNAL_ERROR, error.message);
-
-            }
+                                fs.unlinkSync(`tmp/${fileName}`);
+                                res.locals.gpsData = exifData.gps
+                            });
+                        }
+                        catch (error) {
+                            fs.unlinkSync(`tmp/${fileName}`);
+                            throw new BadRequestError(ERROR_CODES.INTERNAL_ERROR, error.message);
+                        }
+                }));
         }
     }
 }
