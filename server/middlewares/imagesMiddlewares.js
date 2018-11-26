@@ -22,7 +22,7 @@ class ImagesMiddlewares {
         if (res.locals.gpsData) {
             gpsData = GpsHelper.formatData(res.locals.gpsData);
         }
-        if (!res.locals.gpsData && !req.body.lat && !req.body.lng) {
+        if (!res.locals.gpsData && !req.body.lat) {
             throw new BadRequestError(ERROR_CODES.UNPROCESSABLE,
             LocalizationDictionary.getText('NO_GPS_DATA'))
         }

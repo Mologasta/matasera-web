@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 module.exports = new Schema({
-    _id: {
-        type: Schema.Types.ObjectId,
-    },
     firstName: {
         type: String,
         required: true,

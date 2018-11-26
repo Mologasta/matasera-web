@@ -9,7 +9,7 @@
     "EVENT_NOT_IMPLEMENTED": "Event not implemented",
     "INVALID_TOKENS": "Invalid tokens",
     "INVALID_TOKEN": "Invalid token",
-    "INVALID_EMAIL": "!!Email address is invalid",
+    "INVALID_EMAIL": "Email address is invalid",
     "INVALID_TYPE": "File type invalid",
     "INVALID_PASSWORD": "Invalid password",
     "NO_RELATION_ERROR": "Authorization token and refresh token mismatch",
