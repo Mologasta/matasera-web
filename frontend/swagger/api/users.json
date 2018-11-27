@@ -118,9 +118,6 @@
         "lastName": {
           "type": "string"
         },
-        "username": {
-          "type": "string"
-        },
         "email": {
           "type": "string"
         },
@@ -153,8 +150,7 @@
         "id",
         "firstName",
         "lastName",
-        "email",
-        "username"
+        "email"
       ],
       "properties": {
         "id": {
@@ -164,9 +160,6 @@
           "type": "string"
         },
         "lastName": {
-          "type": "string"
-        },
-        "username": {
           "type": "string"
         },
         "email": {
