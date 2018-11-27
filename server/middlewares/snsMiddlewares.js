@@ -47,7 +47,9 @@ class SnsMiddlewares {
                                 }
 
                                 fs.unlinkSync(`tmp/${fileName}`);
-                                res.locals.gpsData = exifData.gps
+                                res.locals.gpsData = exifData.gps;
+
+                                next();
                             });
                         }
                         catch (error) {

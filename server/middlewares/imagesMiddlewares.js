@@ -19,6 +19,10 @@ class ImagesMiddlewares {
         if (req.headers['x-amz-sns-message-type'] === 'SubscriptionConfirmation') {
             return next()
         }
+        if (req.headers['x-amz-sns-message-type'] === 'Notification') {
+            res.locals.image = decodeURIComponent(res.locals.image)
+        }
+
         if (res.locals.gpsData) {
             gpsData = GpsHelper.formatData(res.locals.gpsData);
         }
