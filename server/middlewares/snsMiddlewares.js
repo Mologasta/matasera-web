@@ -1,8 +1,10 @@
 const request = require('request');
 const ExifImage = require('exif').ExifImage;
 const { BadRequestError } = require('../errors');
+const { Image } = require('../models');
 const { ERROR_CODES } = require('../constants');
 const fs = require('fs');
+const LocalizationDictionary = require('../locale');
 const uuid = require('uuid');
 
 class SnsMiddlewares {
@@ -30,6 +32,22 @@ class SnsMiddlewares {
             const record = JSON.parse(req.body.Message).Records[0];
             const fileName = `${uuid.v4()}.${record.s3.object.key.split('.')[1]}`;
             res.locals.image = `https://s3.amazonaws.com/${record.s3.bucket.name}/${record.s3.object.key}`;
+
+            Image
+                .findOne({ path: res.locals.image })
+                .then(result => {
+                    if(result) {
+                        throw new BadRequestError(
+                            ERROR_CODES.INTERNAL_ERROR,
+                            LocalizationDictionary.getText('ALREADY_CREATED')
+                        );
+                    }
+
+                    next();
+                })
+                .then(() => next())
+                .catch(next);
+
 
             request
                 .get(res.locals.image)

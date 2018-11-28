@@ -16,6 +16,7 @@
     "EXPECT_USER": "Expect user not to be undefined",
     "NO_GPS_DATA": "There is no gps data to save, please upload this image with map",
     "FAILED_TO_PARSE": "Failed to get exif data",
+    "ALREADY_CREATED": "File already processed",
 
     "USER_NOT_FOUND": "User not found",
     "IMAGE_NOT_FOUND": "Image not found",
